@@ -27,16 +27,21 @@
 }
 
 .brand-logo-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
+  width: 41px;
+  height: 38px;
+  border-radius: 8px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 1.25rem;
+  overflow: hidden;
   box-shadow: var(--shadow-glow);
+}
+
+.brand-logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .navbar-nav {

@@ -1,3 +1,4 @@
+import logo from "../../../assets/rlrp-logo.jpg";
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { NAV_LINKS, APP_INFO } from '@/utils/constants';
@@ -13,7 +14,9 @@ export const Navbar = () => {
     <header className="navbar-header">
       <div className="container navbar-container">
         <Link to="/" className="navbar-brand">
-          <div className="brand-logo-icon">R</div>
+          <div className="brand-logo-icon">
+           <img src={logo} alt="RLRP Logo" />
+          </div>
           <span className="brand-text">{APP_INFO.NAME}</span>
         </Link>
 
