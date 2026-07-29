@@ -1,20 +1,47 @@
 :root {
-  /* Color Palette - Vibrant Dark / Modern Clean */
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --primary-light: rgba(59, 130, 246, 0.15);
-  
-  --secondary: #10b981;
-  --secondary-hover: #059669;
-  --secondary-light: rgba(16, 185, 129, 0.15);
+  /* Rem-Based 1rem = 1px Proper Design Tokens */
+  --font-xs: 12rem;
+  --font-sm: 14rem;
+  --font-base: 16rem;
+  --font-md: 18rem;
+  --font-lg: 20rem;
+  --font-xl: 24rem;
+  --font-2xl: 28rem;
+  --font-3xl: 36rem;
+  --font-4xl: 48rem;
+  --font-5xl: 60rem;
 
-  --accent: #8b5cf6;
-  --accent-hover: #7c3aed;
+  /* Spacing Tokens (1rem = 1px) */
+  --space-2: 2rem;
+  --space-4: 4rem;
+  --space-8: 8rem;
+  --space-12: 12rem;
+  --space-16: 16rem;
+  --space-20: 20rem;
+  --space-24: 24rem;
+  --space-32: 32rem;
+  --space-40: 40rem;
+  --space-48: 48rem;
+  --space-64: 64rem;
+  --space-80: 80rem;
+
+  /* Color Palette - Compassionate Elderly Care NGO Theme */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.12);
+  
+  --secondary: #059669;
+  --secondary-hover: #047857;
+  --secondary-light: rgba(5, 150, 105, 0.12);
+
+  --accent: #d97706;
+  --accent-hover: #b45309;
+  --accent-light: rgba(217, 119, 6, 0.12);
 
   /* Theme Backgrounds */
-  --bg-dark: #090d16;
-  --bg-dark-card: #111827;
-  --bg-dark-border: #1f2937;
+  --bg-dark: #0f172a;
+  --bg-dark-card: #1e293b;
+  --bg-dark-border: #334155;
   
   --bg-light: #f8fafc;
   --bg-light-card: #ffffff;
@@ -22,35 +49,36 @@
 
   /* Text Colors */
   --text-dark-primary: #f8fafc;
-  --text-dark-secondary: #94a3b8;
-  --text-dark-muted: #64748b;
+  --text-dark-secondary: #cbd5e1;
+  --text-dark-muted: #94a3b8;
 
   --text-light-primary: #0f172a;
   --text-light-secondary: #475569;
-  --text-light-muted: #94a3b8;
+  --text-light-muted: #64748b;
 
   /* Glassmorphism & Effects */
-  --glass-bg: rgba(17, 24, 39, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg-dark: rgba(30, 41, 59, 0.85);
+  --glass-bg-light: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.12);
   --glass-blur: blur(12px);
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.35);
+  --shadow-sm: 0 1rem 3rem rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4rem 12rem rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12rem 24rem rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 25rem rgba(37, 99, 235, 0.3);
 
   /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
 
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
+  /* Border Radius (1rem = 1px) */
+  --radius-sm: 6rem;
+  --radius-md: 12rem;
+  --radius-lg: 20rem;
+  --radius-xl: 30rem;
+  --radius-full: 9999rem;
 }
 
 [data-theme='light'] {
@@ -60,6 +88,7 @@
   --text-primary: var(--text-light-primary);
   --text-secondary: var(--text-light-secondary);
   --text-muted: var(--text-light-muted);
+  --glass-bg: var(--glass-bg-light);
 }
 
 [data-theme='dark'] {
@@ -69,4 +98,5 @@
   --text-primary: var(--text-dark-primary);
   --text-secondary: var(--text-dark-secondary);
   --text-muted: var(--text-dark-muted);
+  --glass-bg: var(--glass-bg-dark);
 }

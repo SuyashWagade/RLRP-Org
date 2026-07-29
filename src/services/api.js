@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -10,11 +10,25 @@ const api = axios.create({
   timeout: 10000,
 });
 
+// Attach JWT token to requests if available
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('rlrp_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor for centralized error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
   (error) => {
-    console.error('API Error:', error.response ? error.response.data : error.message);
-    return Promise.reject(error);
+    const message = error.response?.data?.message || 'An unexpected error occurred';
+    console.error('[API Interceptor Error]:', message);
+    return Promise.reject(new Error(message));
   }
 );
 

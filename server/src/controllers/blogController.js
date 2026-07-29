@@ -1,16 +1,56 @@
-const mockBlogs = [
-  { id: 1, title: 'How Solar Water Wells are Changing Villages', date: 'July 15, 2026', author: 'Team RLRP', excerpt: 'Clean water access has led to a 40% drop in waterborne diseases in our partner villages.' },
-  { id: 2, title: 'Empowering Girls Through Coding Bootcamps', date: 'July 10, 2026', author: 'Priya Sharma', excerpt: 'Our rural tech literacy program has graduated over 500 young female developers.' },
-];
+import prisma from '../config/db.js';
 
-export const getBlogs = (req, res) => {
-  res.status(200).json({ success: true, count: mockBlogs.length, data: mockBlogs });
+export const getBlogPosts = async (req, res, next) => {
+  try {
+    const posts = await prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json({ success: true, count: posts.length, data: posts });
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const getBlogById = (req, res) => {
-  const blog = mockBlogs.find((b) => b.id === parseInt(req.params.id, 10));
-  if (!blog) {
-    return res.status(404).json({ success: false, message: 'Blog post not found' });
+export const getBlogPostBySlug = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const post = await prisma.blogPost.findUnique({
+      where: { slug },
+    });
+
+    if (!post) {
+      return res.status(404).json({ success: false, message: 'Article not found' });
+    }
+
+    res.json({ success: true, data: post });
+  } catch (error) {
+    next(error);
   }
-  res.status(200).json({ success: true, data: blog });
+};
+
+export const createBlogPost = async (req, res, next) => {
+  try {
+    const { title, content, author, category, imageUrl } = req.body;
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    const image = req.file ? `/uploads/${req.file.filename}` : imageUrl;
+
+    const post = await prisma.blogPost.create({
+      data: { title, slug, content, author, category, imageUrl: image },
+    });
+
+    res.status(201).json({ success: true, data: post });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteBlogPost = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await prisma.blogPost.delete({ where: { id } });
+    res.json({ success: true, message: 'Article deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
 };

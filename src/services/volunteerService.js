@@ -1,12 +1,9 @@
 import api from './api';
 
 export const volunteerService = {
-  apply: async (formData) => {
-    try {
-      const response = await api.post('/volunteers/apply', formData);
-      return response.data;
-    } catch (err) {
-      return { success: false, message: 'Application submission failed' };
-    }
-  },
+  register: (data) => api.post('/volunteers', data),
+  getAll: () => api.get('/volunteers'),
+  updateStatus: (id, status) => api.patch(`/volunteers/${id}`, { status }),
 };
+
+export default volunteerService;

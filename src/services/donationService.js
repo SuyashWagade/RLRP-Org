@@ -1,12 +1,9 @@
 import api from './api';
 
 export const donationService = {
-  processDonation: async (donationData) => {
-    try {
-      const response = await api.post('/donations', donationData);
-      return response.data;
-    } catch (err) {
-      return { success: false, message: 'Donation processing failed' };
-    }
-  },
+  getAll: () => api.get('/donations'),
+  create: (data) => api.post('/donations', data),
+  getStats: () => api.get('/donations/stats'),
 };
+
+export default donationService;

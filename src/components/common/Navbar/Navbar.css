@@ -5,8 +5,8 @@
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--glass-border);
-  height: 72px;
+  border-bottom: 1rem solid var(--bg-border);
+  height: 76rem;
   display: flex;
   align-items: center;
 }
@@ -20,21 +20,22 @@
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 12rem;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: var(--font-lg);
   color: var(--text-primary);
 }
 
 .brand-logo-icon {
-  width: 41px;
-  height: 38px;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  color: #fff;
+  font-size: 1.25rem;
   box-shadow: var(--shadow-glow);
 }
 
@@ -47,11 +48,11 @@
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 24rem;
 }
 
 .nav-item {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   font-weight: 500;
   color: var(--text-secondary);
   transition: color var(--transition-fast);
@@ -59,16 +60,17 @@
 
 .nav-item:hover, .nav-item.active {
   color: var(--primary);
+  font-weight: 600;
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16rem;
 }
 
 .theme-toggle-btn {
-  padding: 0.5rem;
+  padding: 8rem;
   border-radius: var(--radius-full);
   color: var(--text-secondary);
   display: flex;
@@ -85,20 +87,38 @@
 .btn-donate {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, var(--secondary) 0%, #059669 100%);
+  gap: 8rem;
+  background: linear-gradient(135deg, var(--secondary) 0%, #047857 100%);
   color: #ffffff;
-  padding: 0.6rem 1.25rem;
+  padding: 10rem 20rem;
   border-radius: var(--radius-full);
   font-weight: 600;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  font-size: var(--font-sm);
+  box-shadow: 0 4rem 14rem rgba(5, 150, 105, 0.3);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .btn-donate:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+  transform: translateY(-2rem);
+  box-shadow: 0 6rem 20rem rgba(5, 150, 105, 0.45);
+}
+
+.btn-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rem;
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 8rem 16rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--font-xs);
+  transition: background var(--transition-fast);
+}
+
+.btn-admin:hover {
+  background: var(--primary);
+  color: #ffffff;
 }
 
 .menu-toggle-btn {
@@ -110,7 +130,7 @@
   display: none;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .menu-toggle-btn {
     display: flex;
   }
@@ -121,14 +141,14 @@
 
   .navbar-nav {
     position: fixed;
-    top: 72px;
+    top: 76rem;
     left: 0;
     width: 100%;
-    height: calc(100vh - 72px);
+    height: calc(100vh - 76rem);
     background: var(--bg-main);
     flex-direction: column;
-    padding: 2rem;
-    gap: 1.5rem;
+    padding: 32rem;
+    gap: 20rem;
     transform: translateX(-100%);
     transition: transform var(--transition-normal);
   }
@@ -138,7 +158,10 @@
   }
 
   .navbar-actions-mobile {
-    display: block;
-    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12rem;
+    margin-top: 16rem;
+    width: 100%;
   }
 }

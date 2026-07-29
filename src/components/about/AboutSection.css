@@ -1,17 +1,100 @@
+.about-section {
+  display: flex;
+  flex-direction: column;
+  gap: 40rem;
+}
+
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300rem, 1fr));
+  gap: 24rem;
+}
+
+.about-card {
+  padding: 32rem 24rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .about-icon {
-  width: 60px;
-  height: 60px;
+  width: 60rem;
+  height: 60rem;
   border-radius: var(--radius-md);
-  background: var(--primary-light);
-  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 20rem;
+}
+
+.about-icon.primary { background: var(--primary-light); color: var(--primary); }
+.about-icon.secondary { background: var(--secondary-light); color: var(--secondary); }
+.about-icon.accent { background: var(--accent-light); color: var(--accent); }
+
+.about-card h3 {
+  font-size: var(--font-xl);
+  margin-bottom: 12rem;
+}
+
+.about-card p {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+.about-story-box {
+  padding: 48rem 40rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40rem;
+  align-items: center;
+}
+
+.story-content h2 {
+  font-size: var(--font-3xl);
+  margin-bottom: 16rem;
+  line-height: 1.3;
+}
+
+.story-content p {
+  font-size: var(--font-base);
+  margin-bottom: 16rem;
+}
+
+.story-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 24rem;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rem;
+}
+
+.highlight-icon {
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 10rem;
+  border-radius: var(--radius-md);
+  box-sizing: content-box;
+  flex-shrink: 0;
+}
+
+.highlight-item h4 {
+  font-size: var(--font-lg);
+  margin-bottom: 4rem;
+}
+
+.highlight-item p {
+  font-size: var(--font-sm);
+  color: var(--text-muted);
+}
+
+@media (max-width: 992px) {
+  .about-story-box {
+    grid-template-columns: 1fr;
+    padding: 32rem 24rem;
+    gap: 24rem;
+  }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 
-// Page Imports
+// Public Page Imports
 import Home from '@/pages/Home/Home';
 import About from '@/pages/About/About';
 import Transparency from '@/pages/Transparency/Transparency';
@@ -27,9 +27,14 @@ import FAQ from '@/pages/FAQ/FAQ';
 import Sitemap from '@/pages/Sitemap/Sitemap';
 import NotFound from '@/pages/NotFound/NotFound';
 
+// Admin Imports
+import AdminLogin from '@/pages/Admin/AdminLogin';
+import AdminDashboard from '@/pages/Admin/AdminDashboard';
+
 export const AppRoutes = () => {
   return (
     <Routes>
+      {/* Public Routes wrapped in MainLayout */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
@@ -62,6 +67,11 @@ export const AppRoutes = () => {
 
         <Route path="*" element={<NotFound />} />
       </Route>
+
+      {/* Standalone Admin Portal Routes */}
+      <Route path="admin" element={<AdminLogin />} />
+      <Route path="admin/login" element={<AdminLogin />} />
+      <Route path="admin/dashboard" element={<AdminDashboard />} />
     </Routes>
   );
 };

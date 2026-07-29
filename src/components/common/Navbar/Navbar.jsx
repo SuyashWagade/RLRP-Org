@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { NAV_LINKS, APP_INFO } from '@/utils/constants';
 import { useTheme } from '@/context/ThemeContext';
-import { Sun, Moon, Menu, X, Heart } from 'lucide-react';
+import { Sun, Moon, Menu, X, Heart, Shield } from 'lucide-react';
 import './Navbar.css';
 
 export const Navbar = () => {
@@ -33,6 +33,9 @@ export const Navbar = () => {
           ))}
 
           <div className="navbar-actions-mobile">
+            <Link to="/admin" className="btn-admin" onClick={() => setIsOpen(false)}>
+              <Shield size={16} /> Admin Portal
+            </Link>
             <Link to="/donate" className="btn-donate" onClick={() => setIsOpen(false)}>
               <Heart size={16} /> Donate Now
             </Link>
@@ -43,6 +46,10 @@ export const Navbar = () => {
           <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle Theme">
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
+
+          <Link to="/admin" className="btn-admin desktop-only">
+            <Shield size={16} /> Admin Portal
+          </Link>
 
           <Link to="/donate" className="btn-donate desktop-only">
             <Heart size={16} /> Donate Now
