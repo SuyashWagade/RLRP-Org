@@ -11,6 +11,9 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    fs: {
+      allow: ['..'],  // allow serving files from parent (root node_modules)
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:5000',

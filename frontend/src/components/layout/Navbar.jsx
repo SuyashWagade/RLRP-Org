@@ -11,13 +11,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 60);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -26,252 +22,208 @@ export const Navbar = () => {
     if (location.pathname !== '/') {
       navigate('/', { state: { scrollTo: sectionId } });
     } else {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const navItems = [
-    { label: 'Who are we', id: 'who-are-we' },
-    { label: 'What we do', id: 'what-we-do' },
-    { label: 'Stories of Change', id: 'stories-section' },
-    { label: 'Why Trust Us', id: 'why-trust-us' },
-    { label: 'Impact', id: 'impact' },
-    { label: 'Contact', id: 'contact' },
+    { label: 'Who are we',       id: 'who-are-we' },
+    { label: 'What we do',       id: 'what-we-do' },
+    { label: 'Stories of Change',id: 'stories-section' },
+    { label: 'Why Trust Us',     id: 'why-trust-us' },
+    { label: 'Impact',           id: 'impact' },
+    { label: 'Contact',          id: 'contact' },
   ];
+
+  /* ─── Navbar bg logic:
+     • At top of hero (not scrolled) → fully transparent, white text (video shows through)
+     • Scrolled → solid glass bg, appropriate text colors for current theme
+  ─── */
+  const navBg = isScrolled
+    ? darkMode
+      ? 'bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-xl'
+      : 'bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-md'
+    : 'bg-transparent border-b border-white/10';   // transparent over hero video
+
+  // When transparent (over video) → always white text so it's readable
+  const linkColor = isScrolled
+    ? darkMode
+      ? 'text-slate-200 hover:text-orange-400'
+      : 'text-slate-700 hover:text-blue-800'
+    : 'text-white/90 hover:text-orange-400';
+
+  const logoTextColor = isScrolled
+    ? darkMode ? 'text-white' : 'text-blue-900'
+    : 'text-white';
+
+  const logoSubColor = isScrolled
+    ? darkMode ? 'text-slate-400' : 'text-slate-500'
+    : 'text-white/70';
+
+  const toggleBtnCls = isScrolled
+    ? darkMode
+      ? 'bg-slate-800 border-slate-700 text-amber-400 hover:bg-slate-700'
+      : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
+    : 'bg-white/10 border-white/20 text-white hover:bg-white/20';
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-      {/* Top Banner Bar */}
-      <div className={`py-1.5 px-4 text-xs border-b transition-colors duration-300 ${
-        darkMode 
-          ? 'bg-slate-950 text-slate-300 border-slate-800/80' 
-          : 'bg-slate-900 text-slate-200 border-slate-800'
-      }`}>
-        <div className="max-w-7xl mx-auto flex flex-row justify-between items-center gap-2">
-          {/* Left Contact Icons without labels */}
-          <div className="flex items-center space-x-4">
-            <a 
-              href="tel:+919876543210" 
-              className="flex items-center space-x-1.5 hover:text-sky-400 transition-colors"
-              title="Call Us: +91 98765 43210"
-            >
-              <i className="fa-solid fa-phone text-sky-400"></i>
-              <span className="font-semibold text-xs sm:text-xs">+91 98765 43210</span>
-            </a>
 
-            <a 
-              href="mailto:info@realliferealpeople.org" 
-              className="hidden sm:flex items-center space-x-1.5 hover:text-amber-400 transition-colors"
-              title="Email Us: info@realliferealpeople.org"
-            >
-              <i className="fa-solid fa-envelope text-amber-400"></i>
-              <span className="font-semibold text-xs">info@realliferealpeople.org</span>
-            </a>
-
-            <span className="hidden lg:inline-flex items-center text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-700/50 text-[11px] font-medium">
-              <i className="fa-solid fa-shield-halved mr-1.5"></i> 80G Tax Exemption Certified
-            </span>
+      {/* ── Top Utility Strip: tagline + socials ── */}
+      <div
+        className={`py-1.5 px-4 transition-all duration-300 ${
+          isScrolled
+            ? darkMode
+              ? 'bg-slate-950 border-b border-slate-800'
+              : 'bg-blue-900 border-b border-blue-800'
+            : 'bg-slate-950/50 backdrop-blur-sm'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Tagline */}
+          <div className="flex items-center gap-2 text-[11px] font-medium tracking-wide text-blue-100">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse inline-block"></span>
+            <span>Real Life Real People • Savali Nivara Kendra (Since 2010)</span>
           </div>
-
-          {/* Right Social Icons + Theme Switch (NO "Connect with us:" text label as requested) */}
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2.5">
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                aria-label="Facebook" 
-                className="w-7 h-7 rounded-full bg-slate-800/80 hover:bg-sky-600 hover:text-white transition-all flex items-center justify-center text-slate-300"
+          {/* Social Icons only */}
+          <div className="flex items-center gap-1.5">
+            {[
+              { href: 'https://facebook.com',  icon: 'fa-facebook-f',  label: 'Facebook'  },
+              { href: 'https://instagram.com', icon: 'fa-instagram',   label: 'Instagram' },
+              { href: 'https://twitter.com',   icon: 'fa-x-twitter',   label: 'Twitter'   },
+              { href: 'https://youtube.com',   icon: 'fa-youtube',     label: 'YouTube'   },
+            ].map(({ href, icon, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+                className="w-6 h-6 rounded-full bg-white/10 hover:bg-orange-500 text-white transition-all flex items-center justify-center text-[10px]"
               >
-                <i className="fa-brands fa-facebook-f text-xs"></i>
+                <i className={`fa-brands ${icon}`}></i>
               </a>
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                aria-label="Instagram" 
-                className="w-7 h-7 rounded-full bg-slate-800/80 hover:bg-pink-600 hover:text-white transition-all flex items-center justify-center text-slate-300"
-              >
-                <i className="fa-brands fa-instagram text-xs"></i>
-              </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                aria-label="Twitter" 
-                className="w-7 h-7 rounded-full bg-slate-800/80 hover:bg-sky-500 hover:text-white transition-all flex items-center justify-center text-slate-300"
-              >
-                <i className="fa-brands fa-x-twitter text-xs"></i>
-              </a>
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
-                rel="noreferrer" 
-                aria-label="YouTube" 
-                className="w-7 h-7 rounded-full bg-slate-800/80 hover:bg-red-600 hover:text-white transition-all flex items-center justify-center text-slate-300"
-              >
-                <i className="fa-brands fa-youtube text-xs"></i>
-              </a>
-            </div>
-
-            {/* Dark / Light Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle Theme Mode"
-              className="ml-2 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-400/30 transition-all text-xs font-semibold"
-              title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            >
-              {darkMode ? (
-                <>
-                  <i className="fa-solid fa-sun text-amber-400"></i>
-                  <span className="hidden sm:inline text-slate-200">Light</span>
-                </>
-              ) : (
-                <>
-                  <i className="fa-solid fa-moon text-sky-300"></i>
-                  <span className="hidden sm:inline text-slate-200">Dark</span>
-                </>
-              )}
-            </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Main Navigation Bar */}
-      <nav className={`transition-all duration-300 ${
-        darkMode
-          ? isScrolled 
-            ? 'bg-slate-900/95 backdrop-blur-md shadow-xl py-2.5 border-b border-slate-800' 
-            : 'bg-slate-900/85 backdrop-blur-md py-3.5 border-b border-slate-800/50'
-          : isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-lg py-2.5 border-b border-slate-200'
-            : 'bg-white/90 backdrop-blur-md py-3.5 border-b border-slate-200/80'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      {/* ── Main Navigation Bar ── */}
+      <nav className={`transition-all duration-300 ${navBg}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-3">
+
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-11 h-11 rounded-full overflow-hidden bg-white p-0.5 border-2 border-orange-500 shadow-md group-hover:scale-105 transition-transform">
-              <img 
-                src="/assets/rlrp-logo.jpg" 
-                alt="RLRP Logo" 
+          <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-500 shadow-md bg-white p-0.5 group-hover:scale-105 transition-transform">
+              <img
+                src="/assets/rlrp-logo.jpg"
+                alt="RLRP Logo"
                 className="w-full h-full object-cover rounded-full"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "https://placehold.co/100x100?text=RLRP";
-                }}
+                onError={(e) => { e.target.src = 'https://placehold.co/80x80?text=RLRP'; }}
               />
             </div>
             <div>
-              <div className={`font-extrabold text-lg sm:text-xl tracking-tight transition-colors flex items-center gap-1.5 ${
-                darkMode ? 'text-white group-hover:text-sky-400' : 'text-slate-900 group-hover:text-orange-600'
-              }`}>
-                RLRP <span className="text-[11px] bg-orange-500/20 text-orange-500 px-2 py-0.5 rounded-full border border-orange-500/30">Since 2010</span>
+              <div className={`font-black text-base tracking-tight flex items-center gap-1.5 transition-colors ${logoTextColor}`}>
+                RLRP
+                <span className="text-[10px] font-bold bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded-full border border-orange-500/30">
+                  Since 2010
+                </span>
               </div>
-              <div className={`text-[11px] font-medium tracking-wide ${
-                darkMode ? 'text-slate-300' : 'text-slate-600'
-              }`}>
+              <div className={`text-[10px] font-medium tracking-wide transition-colors ${logoSubColor}`}>
                 Real Life Real People • Savali Nivara Kendra
               </div>
             </div>
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center space-x-7">
+          <div className="hidden lg:flex items-center gap-6">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`text-sm font-semibold transition-colors relative py-1 hover:text-orange-500 ${
-                  darkMode ? 'text-slate-200 hover:text-orange-400' : 'text-slate-700 hover:text-orange-600'
-                }`}
+                className={`text-sm font-semibold transition-colors ${linkColor}`}
               >
                 {item.label}
               </button>
             ))}
           </div>
 
-          {/* Action Buttons */}
-          <div className="hidden sm:flex items-center space-x-3">
+          {/* Actions: theme toggle + donate */}
+          <div className="hidden sm:flex items-center gap-3">
+            {/* Single theme toggle icon */}
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-full transition-colors border ${
-                darkMode 
-                  ? 'bg-slate-800 border-slate-700 text-amber-400 hover:bg-slate-700' 
-                  : 'bg-slate-100 border-slate-300 text-amber-600 hover:bg-slate-200'
-              }`}
-              title={darkMode ? "Switch to Light Theme" : "Switch to Dark Theme"}
+              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${toggleBtnCls}`}
+              title={darkMode ? 'Switch to Light' : 'Switch to Dark'}
+              aria-label="Toggle theme"
             >
-              <i className={`fa-solid ${darkMode ? 'fa-sun' : 'fa-moon'} text-base`}></i>
+              <i className={`fa-solid ${darkMode ? 'fa-sun' : 'fa-moon'} text-sm`}></i>
             </button>
 
             <Link
               to="/donate"
-              className="gradient-button px-5 py-2.5 rounded-full text-xs sm:text-sm font-extrabold flex items-center gap-2 shadow-lg hover:shadow-orange-500/40 transition-all text-white"
+              className="gradient-button px-5 py-2.5 rounded-full text-sm font-extrabold flex items-center gap-2 text-white"
             >
-              <i className="fa-solid fa-heart text-white animate-pulse"></i>
+              <i className="fa-solid fa-heart animate-pulse"></i>
               <span>Donate Now</span>
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="lg:hidden flex items-center space-x-2 sm:space-x-3">
+          {/* Mobile Controls */}
+          <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg text-xs ${
-                darkMode ? 'bg-slate-800 text-amber-400' : 'bg-slate-200 text-amber-600'
-              }`}
+              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${toggleBtnCls}`}
             >
-              <i className={`fa-solid ${darkMode ? 'fa-sun' : 'fa-moon'}`}></i>
+              <i className={`fa-solid ${darkMode ? 'fa-sun' : 'fa-moon'} text-sm`}></i>
             </button>
-
             <Link
               to="/donate"
-              className="gradient-button px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 sm:hidden text-white"
+              className="gradient-button px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 text-white sm:hidden"
             >
-              <i className="fa-solid fa-heart text-white"></i>
+              <i className="fa-solid fa-heart"></i>
               <span>Donate</span>
             </Link>
-
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-              className={`p-2 rounded-lg focus:outline-none border ${
-                darkMode ? 'bg-slate-800 text-slate-200 border-slate-700' : 'bg-slate-100 text-slate-800 border-slate-300'
-              }`}
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-all ${toggleBtnCls}`}
             >
-              <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-lg`}></i>
+              <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'}`}></i>
             </button>
           </div>
         </div>
 
-        {/* Mobile Nav Dropdown */}
+        {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className={`lg:hidden border-b px-4 pt-3 pb-6 space-y-2 animate-fadeIn transition-colors ${
-            darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
-          }`}>
+          <div
+            className={`lg:hidden border-t px-4 pt-3 pb-6 space-y-1 animate-fadeIn ${
+              darkMode
+                ? 'bg-slate-900/95 border-slate-800 backdrop-blur-md'
+                : 'bg-white/95 border-slate-200 backdrop-blur-md'
+            }`}
+          >
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`block w-full text-left py-2.5 px-3 rounded-lg font-medium transition-colors ${
-                  darkMode 
-                    ? 'text-slate-200 hover:bg-slate-800 hover:text-orange-400' 
-                    : 'text-slate-800 hover:bg-slate-100 hover:text-orange-600'
+                className={`block w-full text-left py-2.5 px-3 rounded-lg font-semibold text-sm transition-colors ${
+                  darkMode
+                    ? 'text-slate-200 hover:bg-slate-800 hover:text-orange-400'
+                    : 'text-slate-800 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
                 {item.label}
               </button>
             ))}
-            <div className="pt-2">
+            <div className="pt-3">
               <Link
                 to="/donate"
                 onClick={() => setMobileMenuOpen(false)}
-                className="gradient-button w-full py-3 rounded-xl text-center font-bold flex items-center justify-center gap-2 text-white"
+                className="gradient-button w-full py-3 rounded-xl text-center font-extrabold text-sm flex items-center justify-center gap-2 text-white"
               >
-                <i className="fa-solid fa-heart text-white"></i>
+                <i className="fa-solid fa-heart"></i>
                 <span>Donate Now</span>
               </Link>
             </div>
